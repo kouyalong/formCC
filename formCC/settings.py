@@ -144,14 +144,14 @@ CELERYD_FORCE_EXECV = True    # 非常重要,有些情况下可以防止死锁
 
 CELERY_TASK_SERIALIZER = "json"
 default_exchange = Exchange('poseidon_tasks', type='direct')
-inventory_exchange = Exchange('promotion_decrease_inventory', type='direct')
+inventory_exchange = Exchange('inventory', type='direct')
 CELERY_QUEUES = (
     Queue('default', default_exchange, routing_key='default'),
     Queue('inventory', inventory_exchange, routing_key='decrease_inventory'),
 )
 
 CELERY_ROUTES = {
-    'commodity.tasks.add_pink_doi.hello_world': {
+    'commodity.tasks.deff_pink.hello_world': {
         'queue': 'inventory',
         'routing_key': 'decrease_inventory'
     }

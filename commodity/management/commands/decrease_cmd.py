@@ -10,17 +10,17 @@ def make_decrease_celery_app():
 		broker="redis://127.0.0.1:6379/1",
 	)
 	CELERY_TASK_SERIALIZER = "json"
-	inventory_exchange = Exchange('promotion_decrease_inventory', type='direct')
+	inventory_exchange = Exchange('add_pink_doi', type='direct')
 
 	CELERY_QUEUES = (
-		Queue('inventory', inventory_exchange, routing_key='decrease_inventory'),
+		Queue('add_pink_doi', inventory_exchange, routing_key='add_pink_doi'),
 
 	)
 
 	CELERY_ROUTES = {
 		'commodity.tasks.add_pink_doi.hello_world': {
-			'queue': 'promotion_decrease_inventory',
-			'routing_key': 'decrease_inventory'
+			'queue': 'add_pink_doi',
+			'routing_key': 'add_pink_doi'
 		},
 	}
 	app.conf.update({"CELERY_QUEUES": CELERY_QUEUES})
@@ -38,7 +38,8 @@ def handle():
 	            commodity_promotion_number=[{"number": 1, "commodity_id": "10736", "promotion_id": 428}],
 	            user_id=23727389273
 			),
-		result_cls=app.AsyncResult
+		result_cls=app.AsyncResult,
+		queue="add_pink_doi"
 	)
 	app.close()
 
